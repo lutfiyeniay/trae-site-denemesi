@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Su Ascend</title>
+    <meta name="description" content="Cyberpunk dünyasından oyun, film, dizi ve kitap incelemeleri. Gaming ve teknoloji blog yazıları.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Cyber Grid Background -->
+    <div class="cyber-grid"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1 class="logo"><a href="index.html"><span style="color: #00ffff; text-shadow: 0 0 10px #00ffff;">SU</span><span style="color: #ff0080; text-shadow: 0 0 10px #ff0080;">ASCEND</span></a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html#streams" class="nav-link">Yayınlar</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="index.html" class="nav-link">Ana Sayfa</a></li>
+                <li><a href="admin/login.html" class="nav-link admin-link">Admin</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Blog Header -->
+    <section class="blog-header">
+        <div class="container">
+            <h1 class="page-title">CYBER <span class="accent">BLOG</span></h1>
+            <p class="page-subtitle">
+                Cyberpunk dünyasından oyun, film, dizi ve kitap incelemeleri
+            </p>
+            
+            <!-- Search and Filter -->
+            <div class="blog-controls">
+                <div class="search-form">
+                    <div class="search-input-group">
+                        <input type="text" id="search-input" placeholder="Blog yazılarında ara..." class="search-input">
+                        <button type="button" id="search-btn" class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="category-filter">
+                    <button class="filter-btn active" data-category="">
+                        <i class="fas fa-th"></i>
+                        Tümü
+                    </button>
+                    <button class="filter-btn" data-category="Oyun">
+                        <i class="fas fa-gamepad"></i>
+                        Oyun
+                    </button>
+                    <button class="filter-btn" data-category="Film">
+                        <i class="fas fa-film"></i>
+                        Film
+                    </button>
+                    <button class="filter-btn" data-category="Dizi">
+                        <i class="fas fa-tv"></i>
+                        Dizi
+                    </button>
+                    <button class="filter-btn" data-category="Kitap">
+                        <i class="fas fa-book"></i>
+                        Kitap
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="blog-content">
+        <div class="container">
+            <div class="filter-info" id="filter-info" style="display: none;">
+                <p id="filter-text"></p>
+                <button id="clear-filters" class="cyber-btn secondary">
+                    <i class="fas fa-times"></i>
+                    Filtreleri Temizle
+                </button>
+            </div>
+            
+            <div class="blog-grid" id="blog-posts">
+                <!-- Demo blog posts -->
+                <article class="blog-card" data-category="Oyun">
+                    <div class="blog-card-image">
+                        <div class="placeholder-image">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="blog-card-category" style="background-color: #00ffff">
+                            <i class="fas fa-gamepad"></i>
+                            Oyun
+                        </div>
+                    </div>
+                    <div class="blog-card-content">
+                        <h3 class="blog-card-title">
+                            <a href="#" onclick="showPostDetail('Cyberpunk 2077: Phantom Liberty İncelemesi')">Cyberpunk 2077: Phantom Liberty İncelemesi</a>
+                        </h3>
+                        <p class="blog-card-excerpt">
+                            Night City'ye geri dönüş zamanı! Phantom Liberty genişleme paketi ile Cyberpunk 2077'nin yeni hikayesi...
+                        </p>
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">
+                                <i class="fas fa-calendar"></i>
+                                15 Aralık 2024
+                            </span>
+                            <span class="blog-card-views">
+                                <i class="fas fa-eye"></i>
+                                1,234 görüntüleme
+                            </span>
+                        </div>
+                        <a href="#" onclick="showPostDetail('Cyberpunk 2077: Phantom Liberty İncelemesi')" class="blog-card-link">
+                            Devamını Oku <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-card" data-category="Film">
+                    <div class="blog-card-image">
+                        <div class="placeholder-image">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <div class="blog-card-category" style="background-color: #ff0080">
+                            <i class="fas fa-film"></i>
+                            Film
+                        </div>
+                    </div>
+                    <div class="blog-card-content">
+                        <h3 class="blog-card-title">
+                            <a href="#" onclick="showPostDetail('Blade Runner 2049: Cyberpunk Sinemanın Zirvesi')">Blade Runner 2049: Cyberpunk Sinemanın Zirvesi</a>
+                        </h3>
+                        <p class="blog-card-excerpt">
+                            Denis Villeneuve'ün yönettiği bu başyapıt, cyberpunk türünün sinematik potansiyelini sonuna kadar kullanıyor...
+                        </p>
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">
+                                <i class="fas fa-calendar"></i>
+                                12 Aralık 2024
+                            </span>
+                            <span class="blog-card-views">
+                                <i class="fas fa-eye"></i>
+                                987 görüntüleme
+                            </span>
+                        </div>
+                        <a href="#" onclick="showPostDetail('Blade Runner 2049: Cyberpunk Sinemanın Zirvesi')" class="blog-card-link">
+                            Devamını Oku <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-card" data-category="Dizi">
+                    <div class="blog-card-image">
+                        <div class="placeholder-image">
+                            <i class="fas fa-tv"></i>
+                        </div>
+                        <div class="blog-card-category" style="background-color: #8a2be2">
+                            <i class="fas fa-tv"></i>
+                            Dizi
+                        </div>
+                    </div>
+                    <div class="blog-card-content">
+                        <h3 class="blog-card-title">
+                            <a href="#" onclick="showPostDetail('Altered Carbon: Bilinç Transferi ve Gelecek')">Altered Carbon: Bilinç Transferi ve Gelecek</a>
+                        </h3>
+                        <p class="blog-card-excerpt">
+                            Netflix'in cyberpunk dizisi Altered Carbon, ölümsüzlük ve kimlik kavramlarını sorguluyor...
+                        </p>
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">
+                                <i class="fas fa-calendar"></i>
+                                10 Aralık 2024
+                            </span>
+                            <span class="blog-card-views">
+                                <i class="fas fa-eye"></i>
+                                756 görüntüleme
+                            </span>
+                        </div>
+                        <a href="#" onclick="showPostDetail('Altered Carbon: Bilinç Transferi ve Gelecek')" class="blog-card-link">
+                            Devamını Oku <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-card" data-category="Kitap">
+                    <div class="blog-card-image">
+                        <div class="placeholder-image">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="blog-card-category" style="background-color: #ffff00">
+                            <i class="fas fa-book"></i>
+                            Kitap
+                        </div>
+                    </div>
+                    <div class="blog-card-content">
+                        <h3 class="blog-card-title">
+                            <a href="#" onclick="showPostDetail('Neuromancer: Cyberpunk Türünün Doğuşu')">Neuromancer: Cyberpunk Türünün Doğuşu</a>
+                        </h3>
+                        <p class="blog-card-excerpt">
+                            William Gibson'ın bu klasik eseri, cyberpunk türünün temellerini atarak geleceğin teknoloji vizyonunu şekillendirdi...
+                        </p>
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">
+                                <i class="fas fa-calendar"></i>
+                                8 Aralık 2024
+                            </span>
+                            <span class="blog-card-views">
+                                <i class="fas fa-eye"></i>
+                                1,456 görüntüleme
+                            </span>
+                        </div>
+                        <a href="#" onclick="showPostDetail('Neuromancer: Cyberpunk Türünün Doğuşu')" class="blog-card-link">
+                            Devamını Oku <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-card" data-category="Oyun">
+                    <div class="blog-card-image">
+                        <div class="placeholder-image">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="blog-card-category" style="background-color: #00ffff">
+                            <i class="fas fa-gamepad"></i>
+                            Oyun
+                        </div>
+                    </div>
+                    <div class="blog-card-content">
+                        <h3 class="blog-card-title">
+                            <a href="#" onclick="showPostDetail('Deus Ex: Mankind Divided - Augmentation Etiği')">Deus Ex: Mankind Divided - Augmentation Etiği</a>
+                        </h3>
+                        <p class="blog-card-excerpt">
+                            İnsan vücudunun teknolojik gelişimi ve bunun toplumsal sonuçları üzerine derin bir inceleme...
+                        </p>
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">
+                                <i class="fas fa-calendar"></i>
+                                5 Aralık 2024
+                            </span>
+                            <span class="blog-card-views">
+                                <i class="fas fa-eye"></i>
+                                892 görüntüleme
+                            </span>
+                        </div>
+                        <a href="#" onclick="showPostDetail('Deus Ex: Mankind Divided - Augmentation Etiği')" class="blog-card-link">
+                            Devamını Oku <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-card" data-category="Film">
+                    <div class="blog-card-image">
+                        <div class="placeholder-image">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <div class="blog-card-category" style="background-color: #ff0080">
+                            <i class="fas fa-film"></i>
+                            Film
+                        </div>
+                    </div>
+                    <div class="blog-card-content">
+                        <h3 class="blog-card-title">
+                            <a href="#" onclick="showPostDetail('Ghost in the Shell: Ruh ve Makine')">Ghost in the Shell: Ruh ve Makine</a>
+                        </h3>
+                        <p class="blog-card-excerpt">
+                            Anime klasiği Ghost in the Shell, bilinç ve kimlik sorularını cyberpunk estetiği ile harmanlıyor...
+                        </p>
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">
+                                <i class="fas fa-calendar"></i>
+                                3 Aralık 2024
+                            </span>
+                            <span class="blog-card-views">
+                                <i class="fas fa-eye"></i>
+                                1,123 görüntüleme
+                            </span>
+                        </div>
+                        <a href="#" onclick="showPostDetail('Ghost in the Shell: Ruh ve Makine')" class="blog-card-link">
+                            Devamını Oku <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="no-posts" id="no-posts" style="display: none;">
+                <div class="no-posts-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h3>Yazı bulunamadı</h3>
+                <p>Arama kriterlerinize uygun blog yazısı bulunamadı. Farklı anahtar kelimeler deneyin.</p>
+                <button onclick="clearFilters()" class="cyber-btn primary">
+                    <i class="fas fa-home"></i>
+                    Tüm Yazıları Gör
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><span style="color: #00ffff; text-shadow: 0 0 10px #00ffff;">SU</span><span style="color: #ff0080; text-shadow: 0 0 10px #ff0080;">ASCEND</span></h3>
+                    <p>Geleceğin streaming deneyimi. Cyberpunk dünyasında gaming, teknoloji ve daha fazlası.</p>
+                    <div class="social-links">
+                        <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank">
+                            <i class="fab fa-twitch"></i>
+                        </a>
+                        <a href="https://kick.com/YOUR_KICK_USERNAME" target="_blank">
+                            <i class="fas fa-video"></i>
+                        </a>
+                        <a href="#" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" target="_blank">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Bağlantılar</h4>
+                    <ul>
+                        <li><a href="index.html#streams">Canlı Yayınlar</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="admin/login.html">Admin Panel</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Kategoriler</h4>
+                    <ul>
+                        <li><a href="#" onclick="filterByCategory('Oyun')">Oyun İncelemeleri</a></li>
+                        <li><a href="#" onclick="filterByCategory('Film')">Film İncelemeleri</a></li>
+                        <li><a href="#" onclick="filterByCategory('Dizi')">Dizi İncelemeleri</a></li>
+                        <li><a href="#" onclick="filterByCategory('Kitap')">Kitap İncelemeleri</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>İletişim</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> contact@suascend.local</p>
+                        <p><i class="fas fa-globe"></i> www.suascend.local</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Su Ascend. Tüm hakları saklıdır.</p>
+                <p>Cyberpunk 2077 temasında tasarlandı.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        // Blog filtering functionality
+        let currentCategory = '';
+        let currentSearch = '';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initBlogFilters();
+        });
+
+        function initBlogFilters() {
+            // Category filter buttons
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    filterByCategory(category);
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            // Clear filters
+            document.getElementById('clear-filters').addEventListener('click', clearFilters);
+        }
+
+        function filterByCategory(category) {
+            currentCategory = category;
+            
+            // Update active button
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.category === category) {
+                    btn.classList.add('active');
+                }
+            });
+
+            applyFilters();
+        }
+
+        function performSearch() {
+            currentSearch = document.getElementById('search-input').value.toLowerCase().trim();
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const posts = document.querySelectorAll('.blog-card');
+            const filterInfo = document.getElementById('filter-info');
+            const filterText = document.getElementById('filter-text');
+            const noPosts = document.getElementById('no-posts');
+            let visibleCount = 0;
+
+            posts.forEach(post => {
+                const postCategory = post.dataset.category;
+                const postTitle = post.querySelector('.blog-card-title a').textContent.toLowerCase();
+                const postExcerpt = post.querySelector('.blog-card-excerpt').textContent.toLowerCase();
+                
+                let showPost = true;
+
+                // Category filter
+                if (currentCategory && postCategory !== currentCategory) {
+                    showPost = false;
+                }
+
+                // Search filter
+                if (currentSearch && !postTitle.includes(currentSearch) && !postExcerpt.includes(currentSearch)) {
+                    showPost = false;
+                }
+
+                if (showPost) {
+                    post.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+
+            // Update filter info
+            if (currentCategory || currentSearch) {
+                let infoText = '';
+                if (currentSearch) {
+                    infoText += `"<strong>${currentSearch}</strong>" için arama sonuçları `;
+                }
+                if (currentCategory) {
+                    infoText += `<strong>${currentCategory}</strong> kategorisindeki yazılar `;
+                }
+                infoText += `- <span class="result-count">${visibleCount} yazı bulundu</span>`;
+                
+                filterText.innerHTML = infoText;
+                filterInfo.style.display = 'block';
+            } else {
+                filterInfo.style.display = 'none';
+            }
+
+            // Show/hide no posts message
+            if (visibleCount === 0) {
+                noPosts.style.display = 'block';
+                document.getElementById('blog-posts').style.display = 'none';
+            } else {
+                noPosts.style.display = 'none';
+                document.getElementById('blog-posts').style.display = 'grid';
+            }
+        }
+
+        function clearFilters() {
+            currentCategory = '';
+            currentSearch = '';
+            document.getElementById('search-input').value = '';
+            
+            // Reset active button
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.category === '') {
+                    btn.classList.add('active');
+                }
+            });
+
+            applyFilters();
+        }
+
+        function showPostDetail(title) {
+            // Blog yazısı detay sayfasına yönlendirme
+            const postSlug = title.toLowerCase()
+                .replace(/[^a-z0-9\s]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            
+            // Geçici olarak alert göster, ileride gerçek sayfa oluşturulacak
+            const postContent = getPostContent(title);
+            
+            // Modal veya yeni sayfa açma
+            showPostModal(title, postContent);
+        }
+        
+        function getPostContent(title) {
+            const posts = {
+                'Cyberpunk 2077: Phantom Liberty İncelemesi': {
+                    content: `
+                        <h2>Cyberpunk 2077: Phantom Liberty İncelemesi</h2>
+                        <p><strong>Yayın Tarihi:</strong> 15 Aralık 2024</p>
+                        <p><strong>Kategori:</strong> Oyun İncelemesi</p>
+                        
+                        <h3>Giriş</h3>
+                        <p>Night City'ye geri dönüş zamanı! CD Projekt RED'in uzun zamandır beklenen genişleme paketi Phantom Liberty, Cyberpunk 2077'nin hikayesini derinleştiriyor ve oyunculara yepyeni bir macera sunuyor.</p>
+                        
+                        <h3>Hikaye ve Karakterler</h3>
+                        <p>Phantom Liberty, V'nin hikayesini devam ettirirken, yeni karakterler ve kompleks siyasi entrikalar ekliyor. Keanu Reeves'in Johnny Silverhand karakteri yine merkezi bir rol oynuyor.</p>
+                        
+                        <h3>Oynanış</h3>
+                        <p>Genişleme paketi, temel oyunun mekaniğini geliştirirken yeni siber implantlar ve yetenekler ekliyor. Dogtown bölgesi, keşfedilecek yeni alanlar ve yan görevler sunuyor.</p>
+                        
+                        <h3>Sonuç</h3>
+                        <p>Phantom Liberty, Cyberpunk 2077'nin potansiyelini gerçekleştiren mükemmel bir genişleme paketi. Hem yeni hem de eski oyuncular için kesinlikle denemeye değer.</p>
+                        
+                        <p><strong>Puan:</strong> 9/10</p>
+                    `,
+                    image: null
+                },
+                'Blade Runner 2049: Cyberpunk Sinemanın Zirvesi': {
+                    content: `
+                        <h2>Blade Runner 2049: Cyberpunk Sinemanın Zirvesi</h2>
+                        <p><strong>Yayın Tarihi:</strong> 12 Aralık 2024</p>
+                        <p><strong>Kategori:</strong> Film İncelemesi</p>
+                        
+                        <h3>Giriş</h3>
+                        <p>Denis Villeneuve'ün yönettiği Blade Runner 2049, orijinal filmin mirasını korurken modern sinema teknikleriyle cyberpunk türünün zirvesine çıkıyor.</p>
+                        
+                        <h3>Görsel Tasarım</h3>
+                        <p>Roger Deakins'in sinematografisi, neon ışıklar ve karanlık atmosferle cyberpunk estetiğini mükemmel şekilde yansıtıyor. Her kare bir sanat eseri.</p>
+                        
+                        <h3>Hikaye ve Temalar</h3>
+                        <p>Film, insan doğası, yapay zeka ve kimlik sorularını derinlemesine işliyor. Ryan Gosling'in K karakteri, izleyiciyi duygusal bir yolculuğa çıkarıyor.</p>
+                        
+                        <h3>Sonuç</h3>
+                        <p>Blade Runner 2049, hem orijinal filmin hayranları hem de yeni izleyiciler için mükemmel bir cyberpunk deneyimi sunuyor.</p>
+                        
+                        <p><strong>Puan:</strong> 10/10</p>
+                    `,
+                    image: null
+                }
+            };
+            
+            return posts[title] || {
+                content: `
+                    <h2>${title}</h2>
+                    <p>Bu yazının detaylı içeriği yakında eklenecek...</p>
+                    <p>Cyberpunk dünyasından en güncel haberler ve incelemeleri takip etmeyi unutmayın!</p>
+                `,
+                image: null
+            };
+        }
+        
+        function showPostModal(title, postData) {
+            // Modal oluştur
+            const modal = document.createElement('div');
+            modal.className = 'post-modal';
+            modal.innerHTML = `
+                <div class="post-modal-content">
+                    <div class="post-modal-header">
+                        <button class="post-modal-close" onclick="closePostModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="post-modal-body">
+                        ${postData.content}
+                    </div>
+                </div>
+                <div class="post-modal-overlay" onclick="closePostModal()"></div>
+            `;
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePostModal() {
+            const modal = document.querySelector('.post-modal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Su Ascend - Test Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .test-dashboard {
+            min-height: 100vh;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .dashboard-card {
+            background: var(--secondary-bg);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .dashboard-card:hover::before {
+            opacity: 0.1;
+        }
+        
+        .dashboard-card:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--neon-cyan);
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+        
+        .card-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+            margin: 0;
+        }
+        
+        .file-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            background: rgba(0, 255, 255, 0.05);
+            border-left: 3px solid var(--neon-cyan);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .file-item:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .file-icon {
+            color: var(--neon-yellow);
+            margin-right: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-right: 1rem;
+        }
+        
+        .file-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid var(--neon-green);
+            border-radius: 20px;
+            color: var(--neon-green);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .cyber-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cyber-btn.primary {
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-blue));
+            color: var(--primary-bg);
+            border: 2px solid var(--neon-cyan);
+        }
+        
+        .cyber-btn.secondary {
+            background: transparent;
+            color: var(--neon-pink);
+            border: 2px solid var(--neon-pink);
+        }
+        
+        .cyber-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-grid"></div>
+    
+    <div class="test-dashboard">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <h1 style="font-family: 'Orbitron', monospace; font-size: 2.5rem; margin-bottom: 1rem;">
+                <span style="color: #00ffff; text-shadow: 0 0 15px #00ffff;">SU</span><span style="color: #ff0080; text-shadow: 0 0 15px #ff0080;">ASCEND</span>
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 1.1rem; margin: 0;">
+                <i class="fas fa-terminal" style="color: var(--neon-cyan); margin-right: 10px;"></i>
+                Test Dashboard - Sistem Durumu
+            </p>
+            <div class="status-badge" style="margin-top: 1rem;">
+                <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                Tüm Güncellemeler Tamamlandı
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Ana Dosyalar -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-file-code card-icon"></i>
+                    <h3 class="card-title">Ana Dosyalar</h3>
+                </div>
+                <ul class="file-list">
+                    <li class="file-item">
+                        <i class="fas fa-home file-icon"></i>
+                        <span class="file-name">index.html</span>
+                        <span class="file-desc">Header, Hero, Title, Footer</span>
+                    </li>
+                    <li class="file-item">
+                        <i class="fas fa-blog file-icon"></i>
+                        <span class="file-name">blog.html</span>
+                        <span class="file-desc">Logo, Title, Copyright</span>
+                    </li>
+                    <li class="file-item">
+                        <i class="fas fa-server file-icon"></i>
+                        <span class="file-name">blog.php</span>
+                        <span class="file-desc">Sayfa Başlığı</span>
+                    </li>
+                    <li class="file-item">
+                        <i class="fas fa-newspaper file-icon"></i>
+                        <span class="file-name">post.php</span>
+                        <span class="file-desc">Title, Footer</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Stil ve Script -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-palette card-icon"></i>
+                    <h3 class="card-title">Stil & Script</h3>
+                </div>
+                <ul class="file-list">
+                    <li class="file-item">
+                        <i class="fas fa-paint-brush file-icon"></i>
+                        <span class="file-name">css/style.css</span>
+                        <span class="file-desc">CSS Yorumu</span>
+                    </li>
+                    <li class="file-item">
+                        <i class="fas fa-code file-icon"></i>
+                        <span class="file-name">js/script.js</span>
+                        <span class="file-desc">Bildirim, Window Nesnesi</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Admin Panel -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-user-shield card-icon"></i>
+                    <h3 class="card-title">Admin Panel</h3>
+                </div>
+                <ul class="file-list">
+                    <li class="file-item">
+                        <i class="fas fa-sign-in-alt file-icon"></i>
+                        <span class="file-name">admin/login.html</span>
+                        <span class="file-desc">Giriş Sayfası</span>
+                    </li>
+                    <li class="file-item">
+                        <i class="fas fa-server file-icon"></i>
+                        <span class="file-name">admin/login.php</span>
+                        <span class="file-desc">PHP Giriş</span>
+                    </li>
+                    <li class="file-item">
+                        <i class="fas fa-tachometer-alt file-icon"></i>
+                        <span class="file-name">admin/dashboard.html</span>
+                        <span class="file-desc">Dashboard HTML</span>
+                    </li>
+                    <li class="file-item">
+                        <i class="fas fa-cogs file-icon"></i>
+                        <span class="file-name">admin/dashboard.php</span>
+                        <span class="file-desc">Dashboard PHP</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Değişiklik Özeti -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-exchange-alt card-icon"></i>
+                    <h3 class="card-title">Değişiklik Özeti</h3>
+                </div>
+                <div style="color: var(--text-secondary); line-height: 1.8;">
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: rgba(0, 255, 255, 0.05); border-radius: 8px;">
+                        <strong style="color: var(--neon-cyan);">SUASCEND</strong> → 
+                        <strong style="color: #00ffff;">SU</strong><strong style="color: #ff0080;">ASCEND</strong>
+                    </div>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 0.5rem 0; color: var(--text-primary);">
+                            <i class="fas fa-check" style="color: var(--neon-green); margin-right: 10px;"></i>
+                            10 dosya güncellendi
+                        </li>
+                        <li style="margin: 0.5rem 0; color: var(--text-primary);">
+                            <i class="fas fa-check" style="color: var(--neon-green); margin-right: 10px;"></i>
+                            Neon efektler korundu
+                        </li>
+                        <li style="margin: 0.5rem 0; color: var(--text-primary);">
+                            <i class="fas fa-check" style="color: var(--neon-green); margin-right: 10px;"></i>
+                            Tema uyumluluğu sağlandı
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-buttons">
+            <a href="index.html" class="cyber-btn primary">
+                <i class="fas fa-home"></i>
+                Ana Sayfa
+            </a>
+            <a href="blog.html" class="cyber-btn secondary">
+                <i class="fas fa-blog"></i>
+                Blog
+            </a>
+            <a href="admin/dashboard.html" class="cyber-btn secondary">
+                <i class="fas fa-user-shield"></i>
+                Admin
+            </a>
+        </div>
+    </div>
+</body>
+</html>

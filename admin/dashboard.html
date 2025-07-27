@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Su Ascend</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <div class="cyber-grid"></div>
+    
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="admin-nav">
+            <div class="admin-logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>CYBER<span class="accent">ADMIN</span></h1>
+            </div>
+            <div class="admin-user">
+                <span class="welcome-text">Hoş geldin, <strong>Admin</strong></span>
+                <button onclick="logout()" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Çıkış
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <h2>Su Ascend Admin Dashboard</h2>
+                <p>Sistem yönetim paneline hoş geldiniz. Buradan sitenizin tüm özelliklerini yönetebilirsiniz.</p>
+            </section>
+
+            <!-- Stats Cards -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Toplam Görüntüleme</h3>
+                            <p class="stat-number" data-target="15420">0</p>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                +12.5%
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Blog Yazıları</h3>
+                            <p class="stat-number" data-target="42">0</p>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                +3 yeni
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Aktif Kullanıcılar</h3>
+                            <p class="stat-number" data-target="1337">0</p>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                +8.2%
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Canlı İzleyici</h3>
+                            <p class="stat-number" data-target="256">0</p>
+                            <span class="stat-change neutral">
+                                <i class="fas fa-minus"></i>
+                                Stabil
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="actions-section">
+                <h3>Hızlı İşlemler</h3>
+                <div class="actions-grid">
+                    <button class="action-card" onclick="showModal('new-post')">
+                        <i class="fas fa-plus"></i>
+                        <span>Yeni Blog Yazısı</span>
+                    </button>
+                    
+                    <button class="action-card" onclick="showModal('manage-streams')">
+                        <i class="fas fa-broadcast-tower"></i>
+                        <span>Yayın Yönetimi</span>
+                    </button>
+                    
+                    <button class="action-card" onclick="showModal('site-settings')">
+                        <i class="fas fa-cog"></i>
+                        <span>Site Ayarları</span>
+                    </button>
+                    
+                    <button class="action-card" onclick="showModal('analytics')">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analitik Rapor</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="activity-section">
+                <h3>Son Aktiviteler</h3>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p><strong>Yeni blog yazısı</strong> yayınlandı</p>
+                            <span class="activity-time">2 saat önce</span>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p><strong>Twitch yayını</strong> başlatıldı</p>
+                            <span class="activity-time">4 saat önce</span>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p><strong>50 yeni kullanıcı</strong> kaydoldu</p>
+                            <span class="activity-time">1 gün önce</span>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p><strong>Site ayarları</strong> güncellendi</p>
+                            <span class="activity-time">2 gün önce</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">İşlem</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Modal content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <style>
+    .admin-body {
+        background: var(--primary-bg);
+        min-height: 100vh;
+    }
+    
+    .admin-header {
+        background: var(--accent-bg);
+        border-bottom: 2px solid var(--border-glow);
+        padding: 1rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    
+    .admin-nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .admin-logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .admin-logo i {
+        font-size: 2rem;
+        color: var(--accent-cyan);
+        text-shadow: 0 0 20px var(--accent-cyan);
+    }
+    
+    .admin-logo h1 {
+        font-family: 'Orbitron', monospace;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--text-primary);
+        text-shadow: var(--text-glow);
+        margin: 0;
+    }
+    
+    .admin-user {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .welcome-text {
+        color: var(--text-secondary);
+    }
+    
+    .logout-btn {
+        background: var(--accent-pink);
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .logout-btn:hover {
+        background: #ff0040;
+        transform: translateY(-1px);
+    }
+    
+    .dashboard-main {
+        padding: 2rem 0;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+    
+    .welcome-section {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .welcome-section h2 {
+        color: var(--text-primary);
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-shadow: var(--text-glow);
+    }
+    
+    .welcome-section p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+    }
+    
+    .stats-section {
+        margin-bottom: 3rem;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+    
+    .stat-card {
+        background: var(--accent-bg);
+        border: 2px solid var(--border-glow);
+        border-radius: 10px;
+        padding: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        transition: var(--transition);
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-glow);
+    }
+    
+    .stat-icon {
+        font-size: 3rem;
+        color: var(--accent-cyan);
+        text-shadow: 0 0 20px var(--accent-cyan);
+    }
+    
+    .stat-content h3 {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin: 0 0 0.5rem 0;
+        text-transform: uppercase;
+    }
+    
+    .stat-number {
+        color: var(--text-primary);
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+    }
+    
+    .stat-change {
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+    
+    .stat-change.positive {
+        color: #00ff00;
+    }
+    
+    .stat-change.neutral {
+        color: var(--text-secondary);
+    }
+    
+    .actions-section, .activity-section {
+        margin-bottom: 3rem;
+    }
+    
+    .actions-section h3, .activity-section h3 {
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+    }
+    
+    .actions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .action-card {
+        background: var(--accent-bg);
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+        padding: 2rem;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .action-card:hover {
+        border-color: var(--accent-cyan);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 20px rgba(0, 255, 255, 0.2);
+    }
+    
+    .action-card i {
+        font-size: 2.5rem;
+        color: var(--accent-cyan);
+    }
+    
+    .action-card span {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+    
+    .activity-list {
+        background: var(--accent-bg);
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+        padding: 1.5rem;
+    }
+    
+    .activity-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+    
+    .activity-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--accent-cyan);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-bg);
+    }
+    
+    .activity-content p {
+        color: var(--text-primary);
+        margin: 0 0 0.3rem 0;
+    }
+    
+    .activity-time {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+    
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .modal.active {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .modal-content {
+        background: var(--accent-bg);
+        border: 2px solid var(--border-glow);
+        border-radius: 10px;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .modal-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .modal-header h3 {
+        color: var(--text-primary);
+        margin: 0;
+    }
+    
+    .modal-close {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .modal-close:hover {
+        color: var(--accent-pink);
+    }
+    
+    .modal-body {
+        padding: 1.5rem;
+        color: var(--text-secondary);
+    }
+    
+    /* Form Styles */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+        display: block;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        background: var(--primary-bg);
+        border: 2px solid var(--border-color);
+        border-radius: 5px;
+        color: var(--text-primary);
+        font-family: inherit;
+        transition: var(--transition);
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--accent-cyan);
+        box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+    }
+    
+    .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+    
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .btn-primary {
+        background: var(--accent-cyan);
+        color: var(--primary-bg);
+    }
+    
+    .btn-primary:hover {
+        background: var(--accent-pink);
+        transform: translateY(-1px);
+    }
+    
+    .btn-secondary {
+        background: var(--border-color);
+        color: var(--text-secondary);
+    }
+    
+    .btn-secondary:hover {
+        background: var(--text-secondary);
+        color: var(--primary-bg);
+    }
+    
+    /* Stream Management Styles */
+    .stream-management {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .stream-status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        background: rgba(0, 255, 255, 0.1);
+        border-radius: 5px;
+        border-left: 3px solid var(--primary-color);
+    }
+
+    .status-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .status-indicator.online {
+        background: #00ff00;
+        box-shadow: 0 0 10px #00ff00;
+    }
+
+    .status-indicator.offline {
+        background: #ff0000;
+        box-shadow: 0 0 10px #ff0000;
+    }
+    
+    .stream-platform {
+        background: var(--primary-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+    
+    .stream-platform h4 {
+        color: var(--text-primary);
+        margin: 0 0 1rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .stream-platform h4 i {
+        color: var(--accent-cyan);
+    }
+    
+    /* Analytics Styles */
+    .analytics-dashboard {
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+    
+    .analytics-section {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .analytics-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    
+    .analytics-section h4 {
+        color: var(--text-primary);
+        margin: 0 0 1rem 0;
+    }
+    
+    .analytics-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .analytics-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: var(--primary-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+    }
+    
+    .analytics-label {
+        color: var(--text-secondary);
+        font-weight: 600;
+    }
+    
+    .analytics-value {
+        color: var(--accent-cyan);
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+    
+    .popular-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .content-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: var(--primary-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+    }
+    
+    .content-title {
+        color: var(--text-primary);
+        font-weight: 600;
+        flex: 1;
+    }
+    
+    .content-views {
+        color: var(--accent-cyan);
+        font-weight: 600;
+        margin-left: 1rem;
+    }
+    
+    .stream-stats {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .stream-stat {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: var(--primary-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        flex: 1;
+    }
+    
+    .stream-stat i {
+        font-size: 1.5rem;
+        color: var(--accent-cyan);
+    }
+    
+    .stat-platform {
+        display: block;
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+    
+    .stat-viewers {
+        display: block;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+        .admin-nav {
+            padding: 0 1rem;
+        }
+        
+        .container {
+            padding: 0 1rem;
+        }
+        
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .actions-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .modal-content {
+            width: 95%;
+            max-height: 90vh;
+        }
+        
+        .form-actions {
+            flex-direction: column;
+        }
+        
+        .analytics-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .stream-stats {
+            flex-direction: column;
+        }
+        
+        .stream-management {
+            gap: 1rem;
+        }
+        
+        .content-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .content-views {
+            margin-left: 0;
+        }
+    }
+    </style>
+
+    <script>
+        // Animate counters
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = target.toLocaleString();
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current).toLocaleString();
+                    }
+                }, 20);
+            });
+        }
+        
+        // Show modal
+        function showModal(type) {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+            
+            if (!modal || !title || !body) {
+                console.error('Modal elementleri bulunamadı!');
+                return;
+            }
+            
+            let content = '';
+            
+            switch(type) {
+                case 'new-post':
+                    title.textContent = 'Yeni Blog Yazısı';
+                    content = `
+                        <form id="new-post-form" onsubmit="handleNewPost(event)">
+                            <div class="form-group">
+                                <label for="post-title">Yazı Başlığı:</label>
+                                <input type="text" id="post-title" name="title" required placeholder="Blog yazısının başlığını girin">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="post-category">Kategori:</label>
+                                <select id="post-category" name="category" required>
+                                    <option value="">Kategori seçin</option>
+                                    <option value="Oyun">Oyun</option>
+                                    <option value="Film">Film</option>
+                                    <option value="Dizi">Dizi</option>
+                                    <option value="Kitap">Kitap</option>
+                                    <option value="Teknoloji">Teknoloji</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="post-excerpt">Özet:</label>
+                                <textarea id="post-excerpt" name="excerpt" rows="3" placeholder="Yazının kısa özeti"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="post-content">İçerik:</label>
+                                <textarea id="post-content" name="content" rows="8" required placeholder="Blog yazısının tam içeriği"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="post-tags">Etiketler:</label>
+                                <input type="text" id="post-tags" name="tags" placeholder="Etiketleri virgülle ayırın (örn: cyberpunk, oyun, inceleme)">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" onclick="closeModal()" class="btn-secondary">İptal</button>
+                                <button type="submit" class="btn-primary">Değişiklikleri Kaydet</button>
+                            </div>
+                        </form>
+                    `;
+                    break;
+                    
+                case 'manage-streams':
+                    title.textContent = 'Yayın Yönetimi';
+                    // localStorage'dan kaydedilmiş değerleri al
+                    const savedTwitchUsername = localStorage.getItem('twitchUsername') || 'suascend';
+                    const savedKickUsername = localStorage.getItem('kickUsername') || 'suascend';
+                    
+                    content = `
+                        <div class="stream-management">
+                            <div class="stream-platform">
+                                <h4><i class="fab fa-twitch"></i> Twitch Yayını</h4>
+                                <div class="stream-status">
+                                    <span class="status-indicator offline"></span>
+                                    <span>Durum: Çevrimdışı</span>
+                                </div>
+                                <form id="twitchForm" onsubmit="handleStreamUpdate(event, 'twitch')">
+                                    <div class="form-group">
+                                        <label for="twitch-username">Twitch Kullanıcı Adı:</label>
+                                        <input type="text" id="twitch-username" name="username" value="${savedTwitchUsername}" placeholder="Twitch kullanıcı adınız">
+                                    </div>
+                                    
+                                    <button type="submit" class="btn-primary">Değişiklikleri Kaydet</button>
+                                </form>
+                            </div>
+                            
+                            <div class="stream-platform">
+                                <h4><i class="fas fa-play"></i> Kick Yayını</h4>
+                                <div class="stream-status">
+                                    <span class="status-indicator offline"></span>
+                                    <span>Durum: Çevrimdışı</span>
+                                </div>
+                                <form id="kickForm" onsubmit="handleStreamUpdate(event, 'kick')">
+                                    <div class="form-group">
+                                        <label for="kick-username">Kick Kullanıcı Adı:</label>
+                                        <input type="text" id="kick-username" name="username" value="${savedKickUsername}" placeholder="Kick kullanıcı adınız">
+                                    </div>
+                                    
+                                    <button type="submit" class="btn-primary">Değişiklikleri Kaydet</button>
+                                </form>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" onclick="saveAllStreamSettings()" class="btn-primary">Tüm Değişiklikleri Kaydet</button>
+                                <button type="button" onclick="closeModal()" class="btn-secondary">Kapat</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'site-settings':
+                    title.textContent = 'Site Ayarları';
+                    content = `
+                        <form id="site-settings-form" onsubmit="handleSiteSettings(event)">
+                            <div class="form-group">
+                                <label for="site-title">Site Başlığı:</label>
+                                <input type="text" id="site-title" name="title" value="SUASCEND" placeholder="Site başlığı">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="site-description">Site Açıklaması:</label>
+                                <textarea id="site-description" name="description" rows="3" placeholder="Site açıklaması">Cyberpunk dünyasının en güncel haberleri, oyun incelemeleri ve canlı yayınlar</textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contact-email">İletişim E-postası:</label>
+                                <input type="email" id="contact-email" name="email" value="contact@suascend.local" placeholder="İletişim e-postası">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="site-url">Site URL:</label>
+                                <input type="url" id="site-url" name="url" value="www.suascend.local" placeholder="Site URL'si">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="social-twitter">Twitter:</label>
+                                <input type="text" id="social-twitter" name="twitter" value="@suascend" placeholder="Twitter kullanıcı adı">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="social-youtube">YouTube:</label>
+                                <input type="text" id="social-youtube" name="youtube" value="Suascend Channel" placeholder="YouTube kanal adı">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="theme-color">Ana Tema Rengi:</label>
+                                <select id="theme-color" name="theme">
+                                    <option value="cyan">Cyan (Mevcut)</option>
+                                    <option value="purple">Mor</option>
+                                    <option value="green">Yeşil</option>
+                                    <option value="orange">Turuncu</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" onclick="closeModal()" class="btn-secondary">İptal</button>
+                                <button type="submit" class="btn-primary">Değişiklikleri Kaydet</button>
+                            </div>
+                        </form>
+                    `;
+                    break;
+                    
+                case 'analytics':
+                    title.textContent = 'Analitik Rapor';
+                    content = `
+                        <div class="analytics-dashboard">
+                            <div class="analytics-section">
+                                <h4>Ziyaretçi İstatistikleri</h4>
+                                <div class="analytics-grid">
+                                    <div class="analytics-item">
+                                        <span class="analytics-label">Bugün:</span>
+                                        <span class="analytics-value">1,247</span>
+                                    </div>
+                                    <div class="analytics-item">
+                                        <span class="analytics-label">Bu Hafta:</span>
+                                        <span class="analytics-value">8,932</span>
+                                    </div>
+                                    <div class="analytics-item">
+                                        <span class="analytics-label">Bu Ay:</span>
+                                        <span class="analytics-value">34,567</span>
+                                    </div>
+                                    <div class="analytics-item">
+                                        <span class="analytics-label">Toplam:</span>
+                                        <span class="analytics-value">156,789</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="analytics-section">
+                                <h4>En Popüler İçerikler</h4>
+                                <div class="popular-content">
+                                    <div class="content-item">
+                                        <span class="content-title">Cyberpunk 2077: Phantom Liberty İncelemesi</span>
+                                        <span class="content-views">2,456 görüntülenme</span>
+                                    </div>
+                                    <div class="content-item">
+                                        <span class="content-title">Blade Runner 2049: Cyberpunk Sinemanın Zirvesi</span>
+                                        <span class="content-views">1,987 görüntülenme</span>
+                                    </div>
+                                    <div class="content-item">
+                                        <span class="content-title">Neuromancer: Cyberpunk Türünün Doğuşu</span>
+                                        <span class="content-views">1,756 görüntülenme</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="analytics-section">
+                                <h4>Yayın İstatistikleri</h4>
+                                <div class="stream-stats">
+                                    <div class="stream-stat">
+                                        <i class="fab fa-twitch"></i>
+                                        <div>
+                                            <span class="stat-platform">Twitch</span>
+                                            <span class="stat-viewers">256 izleyici</span>
+                                        </div>
+                                    </div>
+                                    <div class="stream-stat">
+                                        <i class="fas fa-play"></i>
+                                        <div>
+                                            <span class="stat-platform">Kick</span>
+                                            <span class="stat-viewers">89 izleyici</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" onclick="closeModal()" class="btn-secondary">Kapat</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            body.innerHTML = content;
+            
+            // Modal'ı kesinlikle görünür yap
+            modal.style.display = 'flex';
+            modal.style.visibility = 'visible';
+            modal.style.opacity = '1';
+            modal.classList.add('active');
+            
+            // Ekstra güvenlik için timeout
+            setTimeout(() => {
+                modal.style.display = 'flex';
+                modal.classList.add('active');
+            }, 50);
+        }
+        
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Handle new post form submission
+        function handleNewPost(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const postData = {
+                title: formData.get('title'),
+                category: formData.get('category'),
+                excerpt: formData.get('excerpt'),
+                content: formData.get('content'),
+                tags: formData.get('tags'),
+                date: new Date().toLocaleDateString('tr-TR'),
+                author: 'Admin'
+            };
+            
+            // Simulate saving post
+            console.log('Yeni blog yazısı:', postData);
+            alert('Blog yazısı başarıyla yayınlandı!\n\nBaşlık: ' + postData.title + '\nKategori: ' + postData.category);
+            closeModal();
+            
+            // Update stats
+            updateStats('posts', 1);
+        }
+        
+        // Yayın durumu kontrolü (simülasyon)
+        function checkStreamStatus() {
+            // Gerçek uygulamada burada API çağrıları yapılır
+            const twitchStatus = Math.random() > 0.7 ? 'online' : 'offline';
+            const kickStatus = Math.random() > 0.8 ? 'online' : 'offline';
+            
+            updateStreamStatus('twitch', twitchStatus);
+            updateStreamStatus('kick', kickStatus);
+        }
+
+        function updateStreamStatus(platform, status) {
+            const statusElements = document.querySelectorAll(`#${platform}Form .stream-status`);
+            statusElements.forEach(element => {
+                const indicator = element.querySelector('.status-indicator');
+                const text = element.querySelector('span:last-child');
+                
+                indicator.className = `status-indicator ${status}`;
+                text.textContent = `Durum: ${status === 'online' ? 'Canlı Yayında' : 'Çevrimdışı'}`;
+            });
+        }
+
+        // Handle stream update
+        function handleStreamUpdate(event, platform) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const username = formData.get('username');
+            
+            // localStorage'a kaydet
+            if (platform === 'twitch') {
+                localStorage.setItem('twitchUsername', username);
+            } else if (platform === 'kick') {
+                localStorage.setItem('kickUsername', username);
+            }
+            
+            const streamData = {
+                platform: platform,
+                username: username
+            };
+            
+            console.log('Yayın ayarları güncellendi:', streamData);
+            alert(platform.charAt(0).toUpperCase() + platform.slice(1) + ' kullanıcı adı kaydedildi: ' + username);
+            
+            // Yayın durumunu yeniden kontrol et
+            setTimeout(checkStreamStatus, 1000);
+            
+            // Modal'ı kapat
+            closeModal();
+        }
+        
+        // Save all stream settings
+        function saveAllStreamSettings() {
+            const twitchUsername = document.getElementById('twitch-username').value;
+            const kickUsername = document.getElementById('kick-username').value;
+            
+            // localStorage'a kaydet
+            localStorage.setItem('twitchUsername', twitchUsername);
+            localStorage.setItem('kickUsername', kickUsername);
+            
+            const streamSettings = {
+                twitch: twitchUsername,
+                kick: kickUsername,
+                timestamp: new Date().toISOString()
+            };
+            
+            console.log('Tüm yayın ayarları kaydedildi:', streamSettings);
+            alert('Tüm yayın ayarları başarıyla kaydedildi!\n\nTwitch: ' + twitchUsername + '\nKick: ' + kickUsername);
+            
+            // Yayın durumunu yeniden kontrol et
+            setTimeout(checkStreamStatus, 1000);
+            
+            // Modal'ı kapat
+            closeModal();
+        }
+        
+        // Handle site settings
+        function handleSiteSettings(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const settings = {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                email: formData.get('email'),
+                url: formData.get('url'),
+                twitter: formData.get('twitter'),
+                youtube: formData.get('youtube'),
+                theme: formData.get('theme')
+            };
+            
+            console.log('Site ayarları:', settings);
+            alert('Site ayarları başarıyla kaydedildi!\n\nSite Başlığı: ' + settings.title + '\nTema: ' + settings.theme);
+            closeModal();
+            
+            // Apply theme if changed
+            if (settings.theme !== 'cyan') {
+                applyTheme(settings.theme);
+            }
+        }
+        
+        // Export analytics
+        function exportAnalytics() {
+            const analyticsData = {
+                date: new Date().toLocaleDateString('tr-TR'),
+                visitors: {
+                    today: 1247,
+                    week: 8932,
+                    month: 34567,
+                    total: 156789
+                },
+                popularContent: [
+                    { title: 'Cyberpunk 2077: Phantom Liberty İncelemesi', views: 2456 },
+                    { title: 'Blade Runner 2049: Cyberpunk Sinemanın Zirvesi', views: 1987 },
+                    { title: 'Neuromancer: Cyberpunk Türünün Doğuşu', views: 1756 }
+                ],
+                streams: {
+                    twitch: 256,
+                    kick: 89
+                }
+            };
+            
+            const dataStr = JSON.stringify(analyticsData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'suascend_analytics_' + new Date().toISOString().split('T')[0] + '.json';
+            link.click();
+            URL.revokeObjectURL(url);
+            
+            alert('Analitik raporu başarıyla dışa aktarıldı!');
+        }
+        
+        // Update stats
+        function updateStats(type, increment) {
+            const statElements = {
+                'posts': document.querySelector('.stat-card:nth-child(2) .stat-number'),
+                'users': document.querySelector('.stat-card:nth-child(3) .stat-number'),
+                'views': document.querySelector('.stat-card:nth-child(1) .stat-number'),
+                'viewers': document.querySelector('.stat-card:nth-child(4) .stat-number')
+            };
+            
+            if (statElements[type]) {
+                const current = parseInt(statElements[type].textContent.replace(/,/g, ''));
+                const newValue = current + increment;
+                statElements[type].textContent = newValue.toLocaleString();
+            }
+        }
+        
+        // Update stream info
+        function updateStreamInfo(platform, data) {
+            // This would update the main page stream embeds
+            console.log('Ana sayfa yayın bilgileri güncellendi:', platform, data);
+        }
+        
+        // Apply theme
+        function applyTheme(theme) {
+            const root = document.documentElement;
+            const themes = {
+                purple: { primary: '#8b5cf6', secondary: '#a855f7' },
+                green: { primary: '#10b981', secondary: '#059669' },
+                orange: { primary: '#f59e0b', secondary: '#d97706' },
+                cyan: { primary: '#06b6d4', secondary: '#0891b2' }
+            };
+            
+            if (themes[theme]) {
+                root.style.setProperty('--accent-cyan', themes[theme].primary);
+                root.style.setProperty('--accent-pink', themes[theme].secondary);
+                console.log('Tema değiştirildi:', theme);
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            animateCounters();
+            
+            // Close modal when clicking outside
+            document.getElementById('modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+            
+            // Yayın durumunu kontrol et
+            checkStreamStatus();
+            
+            // Her 30 saniyede bir yayın durumunu kontrol et
+            setInterval(checkStreamStatus, 30000);
+        });
+    </script>
+</body>
+</html>

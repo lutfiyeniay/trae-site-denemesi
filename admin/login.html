@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Giriş - Su Ascend</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <div class="cyber-grid"></div>
+    
+    <div class="admin-login-container">
+        <div class="login-panel">
+            <div class="login-header">
+                <div class="admin-logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <h1>CYBER<span class="accent">ADMIN</span></h1>
+                </div>
+                <p class="login-subtitle">Sistem Yönetici Paneli</p>
+            </div>
+            
+            <div class="alert alert-info" id="demo-info">
+                <i class="fas fa-info-circle"></i>
+                Bu demo bir admin paneli simülasyonudur.
+            </div>
+            
+            <form class="login-form" id="login-form">
+                <div class="form-group">
+                    <label for="username" class="form-label">
+                        <i class="fas fa-user"></i>
+                        Kullanıcı Adı / E-posta
+                    </label>
+                    <input type="text" id="username" name="username" class="form-input" 
+                           placeholder="Kullanıcı adınızı girin" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">
+                        <i class="fas fa-lock"></i>
+                        Şifre
+                    </label>
+                    <div class="password-input-group">
+                        <input type="password" id="password" name="password" class="form-input" 
+                               placeholder="Şifrenizi girin" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <i class="fas fa-eye" id="password-icon"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remember" class="checkbox-input">
+                        <span class="checkbox-custom"></span>
+                        Beni hatırla
+                    </label>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Giriş Yap
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <a href="../index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Ana Sayfaya Dön
+                </a>
+            </div>
+        </div>
+        
+        <div class="login-info">
+            <div class="info-panel">
+                <h3>Sistem Bilgileri</h3>
+                <div class="system-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-server"></i>
+                        <span>Sistem Durumu: <span class="status-online">Çevrimiçi</span></span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-shield-check"></i>
+                        <span>Güvenlik: <span class="status-secure">Güvenli</span></span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Son Güncelleme: <span id="current-time"></span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo-credentials">
+                <h4>Demo Giriş Bilgileri</h4>
+                <p><strong>Kullanıcı Adı:</strong> admin</p>
+                <p><strong>Şifre:</strong> admin123</p>
+                <small>Bu bilgiler sadece demo amaçlıdır. Gerçek kullanımda değiştirin.</small>
+                <button onclick="fillDemoCredentials()" class="demo-fill-btn">
+                    <i class="fas fa-magic"></i>
+                    Otomatik Doldur
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+    .admin-body {
+        background: var(--primary-bg);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    .admin-login-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        max-width: 1000px;
+        width: 100%;
+        align-items: start;
+    }
+    
+    .login-panel {
+        background: var(--accent-bg);
+        border: 2px solid var(--border-glow);
+        border-radius: 10px;
+        padding: 2.5rem;
+        box-shadow: var(--shadow-glow);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .login-panel::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent-cyan), var(--accent-pink), var(--accent-purple));
+        animation: pulse 2s ease-in-out infinite;
+    }
+    
+    .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .admin-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .admin-logo i {
+        font-size: 2.5rem;
+        color: var(--accent-cyan);
+        text-shadow: 0 0 20px var(--accent-cyan);
+    }
+    
+    .admin-logo h1 {
+        font-family: 'Orbitron', monospace;
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--text-primary);
+        text-shadow: var(--text-glow);
+        margin: 0;
+    }
+    
+    .login-subtitle {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin: 0;
+    }
+    
+    .alert {
+        padding: 1rem;
+        border-radius: 5px;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .alert-info {
+        background: rgba(0, 255, 255, 0.1);
+        border: 1px solid var(--accent-cyan);
+        color: var(--accent-cyan);
+    }
+    
+    .alert-error {
+        background: rgba(255, 0, 128, 0.1);
+        border: 1px solid var(--accent-pink);
+        color: var(--accent-pink);
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-primary);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 1rem;
+        background: var(--primary-bg);
+        border: 2px solid var(--border-color);
+        border-radius: 5px;
+        color: var(--text-primary);
+        font-size: 1rem;
+        transition: var(--transition);
+    }
+    
+    .form-input:focus {
+        outline: none;
+        border-color: var(--accent-cyan);
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+    
+    .password-input-group {
+        position: relative;
+    }
+    
+    .password-toggle {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: var(--transition);
+    }
+    
+    .password-toggle:hover {
+        color: var(--accent-cyan);
+    }
+    
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+    }
+    
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        color: var(--text-secondary);
+    }
+    
+    .checkbox-input {
+        display: none;
+    }
+    
+    .checkbox-custom {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--border-color);
+        border-radius: 3px;
+        position: relative;
+        transition: var(--transition);
+    }
+    
+    .checkbox-input:checked + .checkbox-custom {
+        background: var(--accent-cyan);
+        border-color: var(--accent-cyan);
+    }
+    
+    .checkbox-input:checked + .checkbox-custom::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--primary-bg);
+        font-weight: bold;
+        font-size: 12px;
+    }
+    
+    .login-btn {
+        width: 100%;
+        padding: 1rem 2rem;
+        background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+        border: none;
+        border-radius: 5px;
+        color: var(--primary-bg);
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .login-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+    }
+    
+    .login-footer {
+        text-align: center;
+        margin-top: 2rem;
+    }
+    
+    .back-link {
+        color: var(--text-secondary);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: var(--transition);
+    }
+    
+    .back-link:hover {
+        color: var(--accent-cyan);
+    }
+    
+    .login-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .info-panel, .demo-credentials {
+        background: var(--accent-bg);
+        border: 2px solid var(--border-glow);
+        border-radius: 10px;
+        padding: 2rem;
+        box-shadow: var(--shadow-glow);
+    }
+    
+    .info-panel h3, .demo-credentials h4 {
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    
+    .system-stats {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-secondary);
+    }
+    
+    .stat-item i {
+        color: var(--accent-cyan);
+        width: 20px;
+    }
+    
+    .status-online {
+        color: #00ff00;
+        font-weight: 600;
+    }
+    
+    .status-secure {
+        color: var(--accent-cyan);
+        font-weight: 600;
+    }
+    
+    .demo-credentials p {
+        color: var(--text-secondary);
+        margin: 0.5rem 0;
+    }
+    
+    .demo-credentials strong {
+        color: var(--text-primary);
+    }
+    
+    .demo-credentials small {
+        color: var(--text-muted);
+        font-style: italic;
+        display: block;
+        margin-top: 1rem;
+    }
+    
+    .demo-fill-btn {
+        width: 100%;
+        padding: 0.8rem;
+        background: var(--accent-purple);
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        margin-top: 1rem;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .demo-fill-btn:hover {
+        background: var(--accent-pink);
+        transform: translateY(-1px);
+    }
+    
+    @media (max-width: 768px) {
+        .admin-login-container {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .login-panel, .info-panel, .demo-credentials {
+            padding: 1.5rem;
+        }
+    }
+    </style>
+
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleDateString('tr-TR') + ' ' + now.toLocaleTimeString('tr-TR');
+            document.getElementById('current-time').textContent = timeString;
+        }
+        
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const passwordIcon = document.getElementById('password-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.className = 'fas fa-eye';
+            }
+        }
+        
+        // Fill demo credentials
+        function fillDemoCredentials() {
+            document.getElementById('username').value = 'admin';
+            document.getElementById('password').value = 'admin123';
+            
+            // Add visual feedback
+            const demoInfo = document.getElementById('demo-info');
+            demoInfo.innerHTML = '<i class="fas fa-check-circle"></i> Demo bilgileri otomatik olarak dolduruldu!';
+            demoInfo.className = 'alert alert-success';
+            
+            setTimeout(() => {
+                demoInfo.innerHTML = '<i class="fas fa-info-circle"></i> Bu demo bir admin paneli simülasyonudur.';
+                demoInfo.className = 'alert alert-info';
+            }, 3000);
+        }
+        
+        // Handle form submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple demo validation
+            if (username === 'admin' && password === 'admin123') {
+                // Show success message
+                const demoInfo = document.getElementById('demo-info');
+                demoInfo.innerHTML = '<i class="fas fa-check-circle"></i> Giriş başarılı! Dashboard\'a yönlendiriliyorsunuz...';
+                demoInfo.className = 'alert alert-success';
+                
+                // Simulate redirect to dashboard
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 2000);
+            } else {
+                // Show error message
+                const demoInfo = document.getElementById('demo-info');
+                demoInfo.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Geçersiz kullanıcı adı veya şifre! Demo bilgilerini kullanın.';
+                demoInfo.className = 'alert alert-error';
+                
+                setTimeout(() => {
+                    demoInfo.innerHTML = '<i class="fas fa-info-circle"></i> Bu demo bir admin paneli simülasyonudur.';
+                    demoInfo.className = 'alert alert-info';
+                }, 3000);
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTime();
+            setInterval(updateTime, 1000);
+        });
+    </script>
+</body>
+</html>

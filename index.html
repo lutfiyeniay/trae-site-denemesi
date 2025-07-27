@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Su Ascend - Cyberpunk Streaming & Blog</title>
+    <meta name="description" content="Cyberpunk dünyasında gaming, streaming ve daha fazlası. Kick ve Twitch yayınları, blog yazıları ve daha fazlası.">
+    <link rel="stylesheet" href="css/style.css?v=2024">
+    <style>
+        /* PC Optimizasyonu - Büyük Stream Boyutları */
+        .stream-player {
+            position: relative;
+            width: 100%;
+            height: 600px !important;
+            background: var(--primary-bg);
+        }
+        
+        .stream-chat {
+            height: 500px !important;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .streams-container.normal .streams-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .stream-panel {
+            min-height: 1200px !important;
+            max-width: 750px;
+        }
+        
+        /* Bölünmüş Ekran - Sinema Modu Gibi */
+         .streams-container.split-screen {
+             position: fixed !important;
+             top: 0;
+             left: 0;
+             width: 100vw !important;
+             height: 100vh !important;
+             background: rgba(0, 0, 0, 0.95) !important;
+             z-index: 1000 !important;
+             display: flex !important;
+             align-items: center !important;
+             justify-content: center !important;
+             padding: 0 !important;
+             margin: 0 !important;
+         }
+         
+         .streams-container.split-screen .streams-grid {
+             display: flex !important;
+             gap: 0 !important;
+             width: 100vw !important;
+             height: 100vh !important;
+             max-width: none !important;
+         }
+         
+         .streams-container.split-screen .stream-panel {
+             flex: 1 !important;
+             display: flex !important;
+             flex-direction: column !important;
+             height: 100vh !important;
+             max-width: none !important;
+             background: var(--primary-bg) !important;
+             border: none !important;
+             border-radius: 0 !important;
+             margin: 0 !important;
+         }
+         
+         .streams-container.split-screen .stream-header {
+             padding: 1rem !important;
+             background: rgba(0, 0, 0, 0.8) !important;
+             border-bottom: 1px solid var(--border-glow) !important;
+         }
+         
+         .streams-container.split-screen .stream-player {
+             flex: 1 !important;
+             height: auto !important;
+             min-height: 70vh !important;
+         }
+         
+         .streams-container.split-screen .stream-chat {
+             height: 25vh !important;
+             flex-shrink: 0 !important;
+         }
+         
+         .streams-container.split-screen .stream-info {
+             padding: 0.5rem 1rem !important;
+             background: rgba(0, 0, 0, 0.8) !important;
+         }
+        
+        /* Büyük ekranlar için daha da büyük boyutlar */
+        @media (min-width: 1400px) {
+            .stream-player {
+                height: 700px !important;
+            }
+            .stream-chat {
+                height: 600px !important;
+            }
+            .stream-panel {
+                max-width: 800px;
+            }
+        }
+        
+        /* Disable hover effects in split-screen mode */
+        .streams-container.split-screen .stream-panel:hover {
+            transform: none !important;
+            box-shadow: var(--shadow-card) !important;
+        }
+
+        /* Compact close button styles */
+        .cinema-close {
+            position: fixed !important;
+            top: 1rem !important;
+            right: 1rem !important;
+            width: 40px !important;
+            height: 40px !important;
+            background: rgba(0, 0, 0, 0.8) !important;
+            color: var(--neon-cyan) !important;
+            border: 2px solid var(--neon-cyan) !important;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            font-size: 1.2rem !important;
+            z-index: 1001 !important;
+            transition: all 0.3s ease !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        /* Show close button when mouse is in top-right area */
+        .close-button-trigger {
+            position: fixed !important;
+            top: 0 !important;
+            right: 0 !important;
+            width: 120px !important;
+            height: 120px !important;
+            z-index: 1000 !important;
+            pointer-events: auto !important;
+            background: transparent !important;
+        }
+
+        .close-button-trigger:hover + .cinema-close,
+        .cinema-close:hover {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* Alternative: Show on container hover */
+        .streams-container.split-screen:hover .cinema-close,
+        .streams-container.cinema-mode:hover .cinema-close {
+            opacity: 0.7 !important;
+            visibility: visible !important;
+        }
+        
+        /* Tablet ve küçük ekranlar için alt alta */
+        @media (max-width: 1200px) {
+            .streams-container.normal .streams-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .stream-player {
+                height: 400px !important;
+            }
+            .stream-chat {
+                height: 300px !important;
+            }
+            
+            .streams-container.split-screen .streams-grid {
+                flex-direction: column !important;
+                height: 95vh !important;
+            }
+            
+            .streams-container.split-screen .stream-player {
+                min-height: 40vh !important;
+            }
+            
+            .streams-container.split-screen .stream-chat {
+                height: 20vh !important;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Cyber Grid Background -->
+    <div class="cyber-grid"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1 class="logo"><span style="color: #00ffff; text-shadow: 0 0 10px #00ffff;">SU</span><span style="color: #ff0080; text-shadow: 0 0 10px #ff0080;">ASCEND</span></h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#streams" class="nav-link">Yayınlar</a></li>
+                <li><a href="#blog" class="nav-link">Blog</a></li>
+                <li><a href="blog.html" class="nav-link">Tüm Yazılar</a></li>
+                <li><a href="admin/login.html" class="nav-link admin-link">Admin</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-intro-animation">
+                <div class="glitch-text">
+                    <span class="glitch-layer">NEURAL LINK ESTABLISHED</span>
+                    <span class="glitch-layer">NEURAL LINK ESTABLISHED</span>
+                    <span class="glitch-layer">NEURAL LINK ESTABLISHED</span>
+                </div>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <div class="system-status">
+                    <span class="status-line">► Sistem Başlatılıyor...</span>
+                    <span class="status-line">► Cyberpunk Protokolü Aktif</span>
+                    <span class="status-line">► Hoş Geldiniz</span>
+                </div>
+            </div>
+            
+            <h1 class="hero-title">
+                <span class="title-line-1">CYBERPUNK STREAMING</span>
+                <span class="title-line-2">
+                    <span style="color: #00ffff; text-shadow: 0 0 15px #00ffff;">SU</span><span style="color: #ff0080; text-shadow: 0 0 15px #ff0080;">ASCEND</span>
+                    <span class="title-matrix">MATRIX</span>
+                </span>
+            </h1>
+            <p class="hero-subtitle">
+                <span style="color: #00ffff;">Geleceğin streaming deneyimi burada.</span> 
+                <span style="color: #ff0080;">Cyberpunk dünyasında gaming, teknoloji ve daha fazlası.</span>
+            </p>
+            <div class="hero-buttons">
+                <a href="#streams" class="cyber-btn primary">
+                    <i class="fas fa-play"></i>
+                    <span style="color: #00ffff;">Yayınları İzle</span>
+                </a>
+                <a href="#blog" class="cyber-btn secondary">
+                    <i class="fas fa-book-open"></i>
+                    <span style="color: #ff0080;">Blog'u Keşfet</span>
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="cyber-logo">
+                <div class="logo-circuit">
+                    <i class="fas fa-microchip"></i>
+                    <div class="circuit-lines">
+                        <div class="circuit-line line-1"></div>
+                        <div class="circuit-line line-2"></div>
+                        <div class="circuit-line line-3"></div>
+                        <div class="circuit-line line-4"></div>
+                    </div>
+                </div>
+                <div class="hologram-effect"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Streams Section -->
+    <section id="streams" class="streams-section">
+        <div class="container">
+            <h2 class="section-title">CANLI <span class="accent">YAYINLAR</span></h2>
+            <p class="section-subtitle">Kick ve Twitch platformlarında canlı yayınlarımızı takip edin</p>
+            
+            <!-- Stream Controls -->
+            <div class="stream-controls">
+                <div class="view-mode-buttons">
+                    <button class="cyber-btn-sm active" id="normal-view" onclick="setViewMode('normal')">
+                        <i class="fas fa-th"></i>
+                        Normal Görünüm
+                    </button>
+                    <button class="cyber-btn-sm" id="split-view" onclick="setViewMode('split')">
+                        <i class="fas fa-columns"></i>
+                        Bölünmüş Ekran
+                    </button>
+                    <button class="cyber-btn-sm" id="cinema-twitch" onclick="setViewMode('cinema-twitch')">
+                        <i class="fab fa-twitch"></i>
+                        Twitch Sinema
+                    </button>
+                    <button class="cyber-btn-sm" id="cinema-kick" onclick="setViewMode('cinema-kick')">
+                        <i class="fas fa-video"></i>
+                        Kick Sinema
+                    </button>
+                </div>
+            </div>
+            
+            <div class="streams-container" id="streams-container">
+                <div class="streams-grid" id="streams-grid">
+                <!-- Twitch Stream -->
+                <div class="stream-panel twitch">
+                    <div class="stream-header">
+                        <div class="platform-info">
+                            <i class="fab fa-twitch"></i>
+                            <span class="platform-name">TWITCH</span>
+                        </div>
+                        <div class="stream-status" id="twitch-status">
+                            <span class="status-indicator offline"></span>
+                            <span class="status-text">Çevrimdışı</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stream-player">
+                        <iframe 
+                            id="twitch-player"
+                            src="https://player.twitch.tv/?channel=YOUR_TWITCH_USERNAME&parent=localhost&muted=true"
+                            frameborder="0"
+                            allowfullscreen="true"
+                            scrolling="no">
+                        </iframe>
+                        <div class="stream-overlay offline" id="twitch-overlay">
+                            <div class="overlay-content">
+                                <i class="fab fa-twitch"></i>
+                                <h3>Twitch Yayını</h3>
+                                <p>Şu anda çevrimdışı</p>
+                                <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" class="cyber-btn-sm">
+                                    Kanala Git
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stream-info">
+                        <div class="viewer-count">
+                            <i class="fas fa-eye"></i>
+                            <span id="twitch-viewers">0</span> izleyici
+                        </div>
+                        <div class="stream-title" id="twitch-title">
+                            Yayın başlığı yükleniyor...
+                        </div>
+                    </div>
+                    
+                    <div class="stream-chat">
+                        <div class="chat-header">
+                            <i class="fas fa-comments"></i>
+                            <span>Twitch Chat</span>
+                            <div class="chat-controls">
+                                <button id="chat-connect-btn" onclick="toggleTwitchChat()" class="chat-control-btn">
+                                    <i class="fas fa-plug"></i>
+                                    Bağlan
+                                </button>
+                                <button id="chat-clear-btn" onclick="clearTwitchChat()" class="chat-control-btn">
+                                    <i class="fas fa-trash"></i>
+                                    Temizle
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chat-container">
+                            <div id="twitch-chat-messages" class="chat-messages">
+                                <div class="chat-welcome">
+                                    <i class="fab fa-twitch"></i>
+                                    <h4>Twitch Chat</h4>
+                                    <p>Chat'e bağlanmak için "Bağlan" butonuna tıklayın</p>
+                                    <div class="chat-info">
+                                        <p><strong>Not:</strong> Bu özellik için Twitch API anahtarları gereklidir</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-input-area">
+                                <input type="text" id="chat-input" placeholder="Mesaj yazın..." disabled>
+                                <button id="chat-send-btn" onclick="sendChatMessage()" disabled>
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kick Stream -->
+                <div class="stream-panel kick">
+                    <div class="stream-header">
+                        <div class="platform-info">
+                            <i class="fas fa-video"></i>
+                            <span class="platform-name">KICK</span>
+                        </div>
+                        <div class="stream-status" id="kick-status">
+                            <span class="status-indicator offline"></span>
+                            <span class="status-text">Çevrimdışı</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stream-player">
+                        <iframe 
+                            id="kick-player"
+                            src="https://player.kick.com/YOUR_KICK_USERNAME"
+                            frameborder="0"
+                            allowfullscreen="true"
+                            scrolling="no">
+                        </iframe>
+                        <div class="stream-overlay offline" id="kick-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-video"></i>
+                                <h3>Kick Yayını</h3>
+                                <p>Şu anda çevrimdışı</p>
+                                <a href="https://kick.com/YOUR_KICK_USERNAME" target="_blank" class="cyber-btn-sm">
+                                    Kanala Git
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stream-info">
+                        <div class="viewer-count">
+                            <i class="fas fa-eye"></i>
+                            <span id="kick-viewers">0</span> izleyici
+                        </div>
+                        <div class="stream-title" id="kick-title">
+                            Yayın başlığı yükleniyor...
+                        </div>
+                    </div>
+                    
+                    <div class="stream-chat">
+                        <div class="chat-header">
+                            <i class="fas fa-comments"></i>
+                            <span>Kick Chat</span>
+                        </div>
+                        <div class="chat-placeholder">
+                            <p>Kick chat entegrasyonu yakında...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="blog-section">
+        <div class="container">
+            <h2 class="section-title">CYBER <span class="accent">BLOG</span></h2>
+            <p class="section-subtitle">Cyberpunk dünyasından oyun, film, dizi ve kitap incelemeleri</p>
+            
+            <div class="blog-grid" id="blog-posts">
+                <!-- Blog posts will be loaded here via JavaScript -->
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Blog yazıları yükleniyor...</p>
+                </div>
+            </div>
+            
+            <div class="blog-actions">
+                <a href="blog.html" class="cyber-btn primary">
+                    <i class="fas fa-book-open"></i>
+                    Tüm Yazıları Gör
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" data-target="150">0</h3>
+                        <p class="stat-label">Oyun İncelemesi</p>
+                    </div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" data-target="89">0</h3>
+                        <p class="stat-label">Film & Dizi</p>
+                    </div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" data-target="67">0</h3>
+                        <p class="stat-label">Kitap İncelemesi</p>
+                    </div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" data-target="2500">0</h3>
+                        <p class="stat-label">Topluluk Üyesi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CYBER<span class="accent">STREAM</span></h3>
+                    <p>Geleceğin streaming deneyimi. Cyberpunk dünyasında gaming, teknoloji ve daha fazlası.</p>
+                    <div class="social-links">
+                        <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank">
+                            <i class="fab fa-twitch"></i>
+                        </a>
+                        <a href="https://kick.com/YOUR_KICK_USERNAME" target="_blank">
+                            <i class="fas fa-video"></i>
+                        </a>
+                        <a href="#" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" target="_blank">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Bağlantılar</h4>
+                    <ul>
+                        <li><a href="#streams">Canlı Yayınlar</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="blog.html">Tüm Yazılar</a></li>
+                        <li><a href="admin/login.html">Admin Panel</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Kategoriler</h4>
+                    <ul>
+                        <li><a href="blog.html#oyun">Oyun İncelemeleri</a></li>
+                        <li><a href="blog.html#film">Film İncelemeleri</a></li>
+                        <li><a href="blog.html#dizi">Dizi İncelemeleri</a></li>
+                        <li><a href="blog.html#kitap">Kitap İncelemeleri</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>İletişim</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> contact@suascend.local</p>
+                        <p><i class="fas fa-globe"></i> www.suascend.local</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 SU ASCEND. Tüm hakları saklıdır.</p>
+                <p>Cyberpunk 2077 temasında tasarlandı.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        // Load blog posts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBlogPosts();
+            initStreamStatus();
+            animateStats();
+            updateStreamLinks();
+            setViewMode('normal'); // Initialize normal view
+        });
+        function updateStreamLinks() {
+            const twitchUsername = localStorage.getItem('twitchUsername') || 'suascend';
+            const kickUsername = localStorage.getItem('kickUsername') || 'suascend';
+            
+            // Twitch linklerini güncelle
+            const twitchPlayer = document.getElementById('twitch-player');
+            const twitchChat = document.getElementById('twitch-chat');
+            const twitchLinks = document.querySelectorAll('a[href*="twitch.tv/YOUR_TWITCH_USERNAME"]');
+            
+            if (twitchPlayer) {
+                twitchPlayer.src = `https://player.twitch.tv/?channel=${twitchUsername}&parent=localhost&muted=true`;
+            }
+            
+            if (twitchChat) {
+                twitchChat.src = `https://www.twitch.tv/embed/${twitchUsername}/chat?parent=localhost`;
+            }
+            
+            twitchLinks.forEach(link => {
+                link.href = `https://twitch.tv/${twitchUsername}`;
+            });
+            
+            // Kick linklerini güncelle
+            const kickPlayer = document.getElementById('kick-player');
+            const kickLinks = document.querySelectorAll('a[href*="kick.com/YOUR_KICK_USERNAME"]');
+            
+            if (kickPlayer) {
+                kickPlayer.src = `https://player.kick.com/${kickUsername}`;
+            }
+            
+            kickLinks.forEach(link => {
+                link.href = `https://kick.com/${kickUsername}`;
+            });
+            
+            console.log('Yayın linkleri güncellendi:', { twitch: twitchUsername, kick: kickUsername });
+        }
+
+        // Load blog posts (static demo data)
+        function loadBlogPosts() {
+            const demoPosts = [
+                {
+                    title: "Cyberpunk 2077: Phantom Liberty İncelemesi",
+                    excerpt: "Night City'ye geri dönüş zamanı! Phantom Liberty genişleme paketi ile Cyberpunk 2077'nin yeni hikayesi...",
+                    category: "Oyun",
+                    category_icon: "fas fa-gamepad",
+                    formatted_date: "15 Aralık 2024",
+                    views: 1234,
+                    url: "#",
+                    featured_image: null
+                },
+                {
+                    title: "Blade Runner 2049: Cyberpunk Sinemanın Zirvesi",
+                    excerpt: "Denis Villeneuve'ün yönettiği bu başyapıt, cyberpunk türünün sinematik potansiyelini sonuna kadar kullanıyor...",
+                    category: "Film",
+                    category_icon: "fas fa-film",
+                    formatted_date: "12 Aralık 2024",
+                    views: 987,
+                    url: "#",
+                    featured_image: null
+                },
+                {
+                    title: "Altered Carbon: Bilinç Transferi ve Gelecek",
+                    excerpt: "Netflix'in cyberpunk dizisi Altered Carbon, ölümsüzlük ve kimlik kavramlarını sorguluyor...",
+                    category: "Dizi",
+                    category_icon: "fas fa-tv",
+                    formatted_date: "10 Aralık 2024",
+                    views: 756,
+                    url: "#",
+                    featured_image: null
+                },
+                {
+                    title: "Neuromancer: Cyberpunk Türünün Doğuşu",
+                    excerpt: "William Gibson'ın bu klasik eseri, cyberpunk türünün temellerini atarak geleceğin teknoloji vizyonunu şekillendirdi...",
+                    category: "Kitap",
+                    category_icon: "fas fa-book",
+                    formatted_date: "8 Aralık 2024",
+                    views: 1456,
+                    url: "#",
+                    featured_image: null
+                },
+                {
+                    title: "Deus Ex: Mankind Divided - Augmentation Etiği",
+                    excerpt: "İnsan vücudunun teknolojik gelişimi ve bunun toplumsal sonuçları üzerine derin bir inceleme...",
+                    category: "Oyun",
+                    category_icon: "fas fa-gamepad",
+                    formatted_date: "5 Aralık 2024",
+                    views: 892,
+                    url: "#",
+                    featured_image: null
+                },
+                {
+                    title: "Ghost in the Shell: Ruh ve Makine",
+                    excerpt: "Anime klasiği Ghost in the Shell, bilinç ve kimlik sorularını cyberpunk estetiği ile harmanlıyor...",
+                    category: "Film",
+                    category_icon: "fas fa-film",
+                    formatted_date: "3 Aralık 2024",
+                    views: 1123,
+                    url: "#",
+                    featured_image: null
+                }
+            ];
+            
+            displayBlogPosts(demoPosts);
+        }
+
+        // Display blog posts
+        function displayBlogPosts(posts) {
+            const blogGrid = document.getElementById('blog-posts');
+            blogGrid.innerHTML = '';
+            
+            posts.forEach(post => {
+                const postElement = createPostElement(post);
+                blogGrid.appendChild(postElement);
+            });
+        }
+
+        // Create post element
+        function createPostElement(post) {
+            const article = document.createElement('article');
+            article.className = 'blog-card';
+            
+            const categoryColor = getCategoryColor(post.category);
+            
+            article.innerHTML = `
+                <div class="blog-card-image">
+                    ${post.featured_image ? 
+                        `<img src="${post.featured_image}" alt="${post.title}">` :
+                        `<div class="placeholder-image"><i class="${post.category_icon}"></i></div>`
+                    }
+                    <div class="blog-card-category" style="background-color: ${categoryColor}">
+                        <i class="${post.category_icon}"></i>
+                        ${post.category}
+                    </div>
+                </div>
+                <div class="blog-card-content">
+                    <h3 class="blog-card-title">
+                        <a href="${post.url}">${post.title}</a>
+                    </h3>
+                    <p class="blog-card-excerpt">${post.excerpt}</p>
+                    <div class="blog-card-meta">
+                        <span class="blog-card-date">
+                            <i class="fas fa-calendar"></i>
+                            ${post.formatted_date}
+                        </span>
+                        <span class="blog-card-views">
+                            <i class="fas fa-eye"></i>
+                            ${post.views} görüntüleme
+                        </span>
+                    </div>
+                    <a href="${post.url}" class="blog-card-link">
+                        Devamını Oku <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            `;
+            
+            return article;
+        }
+
+        // Get category color
+        function getCategoryColor(category) {
+            const colors = {
+                'Oyun': '#00ffff',
+                'Film': '#ff0080',
+                'Dizi': '#8a2be2',
+                'Kitap': '#ffff00',
+                'Teknoloji': '#00ff41'
+            };
+            return colors[category] || '#00ffff';
+        }
+
+        // Show no posts message
+        function showNoPosts() {
+            const blogGrid = document.getElementById('blog-posts');
+            blogGrid.innerHTML = `
+                <div class="no-posts">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>Henüz blog yazısı bulunmuyor</h3>
+                    <p>Yakında cyberpunk dünyasından harika içerikler paylaşacağız!</p>
+                </div>
+            `;
+        }
+
+        // Initialize stream status (mock data for demo)
+        function initStreamStatus() {
+            // This would normally fetch real stream data from APIs
+            updateStreamStatus('twitch', false, 0, 'Yayın başlığı yükleniyor...');
+            updateStreamStatus('kick', false, 0, 'Yayın başlığı yükleniyor...');
+        }
+
+        // Update stream status
+        function updateStreamStatus(platform, isLive, viewers, title) {
+            const statusElement = document.getElementById(`${platform}-status`);
+            const viewersElement = document.getElementById(`${platform}-viewers`);
+            const titleElement = document.getElementById(`${platform}-title`);
+            const overlayElement = document.getElementById(`${platform}-overlay`);
+            
+            if (isLive) {
+                statusElement.innerHTML = `
+                    <span class="status-indicator live"></span>
+                    <span class="status-text">Canlı</span>
+                `;
+                overlayElement.style.display = 'none';
+            } else {
+                statusElement.innerHTML = `
+                    <span class="status-indicator offline"></span>
+                    <span class="status-text">Çevrimdışı</span>
+                `;
+                overlayElement.style.display = 'flex';
+            }
+            
+            viewersElement.textContent = viewers.toLocaleString();
+            titleElement.textContent = title;
+        }
+
+        // Animate statistics
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.dataset.target);
+                        animateNumber(entry.target, target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            
+            statNumbers.forEach(stat => observer.observe(stat));
+        }
+
+        // Animate number counting
+        function animateNumber(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString();
+            }, 20);
+        }
+
+        // View Mode Functions
+        let currentViewMode = 'normal';
+
+        function setViewMode(mode) {
+            const container = document.getElementById('streams-container');
+            const buttons = document.querySelectorAll('.view-mode-buttons .cyber-btn-sm');
+            
+            // Remove all mode classes
+            container.className = 'streams-container';
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Set new mode
+            currentViewMode = mode;
+            
+            switch(mode) {
+                case 'normal':
+                    container.classList.add('normal');
+                    document.getElementById('normal-view').classList.add('active');
+                    // Enable scroll
+                    document.body.style.overflow = 'auto';
+                    // Remove close button
+                    removeCloseButton();
+                    break;
+                    
+                case 'split':
+                    container.classList.add('split-screen');
+                    document.getElementById('split-view').classList.add('active');
+                    // Disable scroll
+                    document.body.style.overflow = 'hidden';
+                    addCloseButton();
+                    break;
+                    
+                case 'cinema-twitch':
+                    container.classList.add('cinema-mode');
+                    document.querySelector('.stream-panel.twitch').classList.add('active');
+                    document.querySelector('.stream-panel.kick').classList.remove('active');
+                    document.getElementById('cinema-twitch').classList.add('active');
+                    // Disable scroll
+                    document.body.style.overflow = 'hidden';
+                    addCloseButton();
+                    break;
+                    
+                case 'cinema-kick':
+                    container.classList.add('cinema-mode');
+                    document.querySelector('.stream-panel.kick').classList.add('active');
+                    document.querySelector('.stream-panel.twitch').classList.remove('active');
+                    document.getElementById('cinema-kick').classList.add('active');
+                    // Disable scroll
+                    document.body.style.overflow = 'hidden';
+                    addCloseButton();
+                    break;
+            }
+        }
+
+        function addCloseButton() {
+            // Remove existing close button if any
+            removeCloseButton();
+            
+            // Add hover trigger area
+            const triggerArea = document.createElement('div');
+            triggerArea.className = 'close-button-trigger';
+            
+            // Add new close button
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'cinema-close';
+            closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            closeBtn.onclick = () => setViewMode('normal');
+            
+            // Add hover effects for close button
+            closeBtn.addEventListener('mouseenter', () => {
+                closeBtn.style.background = 'rgba(0, 255, 255, 0.2)';
+                closeBtn.style.borderColor = 'var(--neon-pink)';
+                closeBtn.style.color = 'var(--neon-pink)';
+                closeBtn.style.transform = 'scale(1.1)';
+                closeBtn.style.opacity = '1';
+                closeBtn.style.visibility = 'visible';
+            });
+            
+            closeBtn.addEventListener('mouseleave', () => {
+                closeBtn.style.background = 'rgba(0, 0, 0, 0.8)';
+                closeBtn.style.borderColor = 'var(--neon-cyan)';
+                closeBtn.style.color = 'var(--neon-cyan)';
+                closeBtn.style.transform = 'scale(1)';
+            });
+            
+            // Show button when mouse enters trigger area
+            triggerArea.addEventListener('mouseenter', () => {
+                closeBtn.style.opacity = '1';
+                closeBtn.style.visibility = 'visible';
+            });
+            
+            triggerArea.addEventListener('mouseleave', () => {
+                // Only hide if not hovering the button itself
+                setTimeout(() => {
+                    if (!closeBtn.matches(':hover')) {
+                        closeBtn.style.opacity = '0';
+                        closeBtn.style.visibility = 'hidden';
+                    }
+                }, 100);
+            });
+            
+            // Append elements in correct order
+            document.body.appendChild(triggerArea);
+            document.body.appendChild(closeBtn);
+        }
+
+        function removeCloseButton() {
+            const existingBtn = document.querySelector('.cinema-close');
+            const existingTrigger = document.querySelector('.close-button-trigger');
+            if (existingBtn) {
+                existingBtn.remove();
+            }
+            if (existingTrigger) {
+                existingTrigger.remove();
+            }
+        }
+
+        function addCinemaCloseButton() {
+            addCloseButton();
+        }
+
+        function handleEscapeKey(event) {
+            if (event.key === 'Escape') {
+                if (currentViewMode === 'split' || currentViewMode.includes('cinema')) {
+                    setViewMode('normal');
+                }
+            }
+        }
+
+        // Add global escape key listener
+        document.addEventListener('keydown', handleEscapeKey);
+    </script>
+</body>
+</html>
