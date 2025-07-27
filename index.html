@@ -955,6 +955,192 @@
 
         // Add global escape key listener
         document.addEventListener('keydown', handleEscapeKey);
-    </script>
-</body>
-</html>
+
+        // Blog post detail functions (add these before the closing script tag)
+        function showPostDetail(title) {
+            const postContent = getPostContent(title);
+            showPostModal(title, postContent);
+        }
+        
+        function getPostContent(title) {
+            const posts = {
+                'Cyberpunk 2077: Phantom Liberty İncelemesi': {
+                    content: `
+                        <h2>Cyberpunk 2077: Phantom Liberty İncelemesi</h2>
+                        <p><strong>Yayın Tarihi:</strong> 15 Aralık 2024</p>
+                        <p><strong>Kategori:</strong> Oyun İncelemesi</p>
+                        
+                        <h3>Giriş</h3>
+                        <p>Night City'ye geri dönüş zamanı! CD Projekt RED'in uzun zamandır beklenen genişleme paketi Phantom Liberty, Cyberpunk 2077'nin hikayesini derinleştiriyor ve oyunculara yepyeni bir macera sunuyor.</p>
+                        
+                        <h3>Hikaye ve Karakterler</h3>
+                        <p>Phantom Liberty, V'nin hikayesini devam ettirirken, yeni karakterler ve kompleks siyasi entrikalar ekliyor. Keanu Reeves'in Johnny Silverhand karakteri yine merkezi bir rol oynuyor.</p>
+                        
+                        <h3>Oynanış</h3>
+                        <p>Genişleme paketi, temel oyunun mekaniğini geliştirirken yeni siber implantlar ve yetenekler ekliyor. Dogtown bölgesi, keşfedilecek yeni alanlar ve yan görevler sunuyor.</p>
+                        
+                        <h3>Sonuç</h3>
+                        <p>Phantom Liberty, Cyberpunk 2077'nin potansiyelini gerçekleştiren mükemmel bir genişleme paketi. Hem yeni hem de eski oyuncular için kesinlikle denemeye değer.</p>
+                        
+                        <p><strong>Puan:</strong> 9/10</p>
+                    `,
+                    image: null
+                },
+                'Blade Runner 2049: Cyberpunk Sinemanın Zirvesi': {
+                    content: `
+                        <h2>Blade Runner 2049: Cyberpunk Sinemanın Zirvesi</h2>
+                        <p><strong>Yayın Tarihi:</strong> 12 Aralık 2024</p>
+                        <p><strong>Kategori:</strong> Film İncelemesi</p>
+                        
+                        <h3>Giriş</h3>
+                        <p>Denis Villeneuve'ün yönettiği Blade Runner 2049, orijinal filmin mirasını korurken modern sinema teknikleriyle cyberpunk türünün zirvesine çıkıyor.</p>
+                        
+                        <h3>Görsel Tasarım</h3>
+                        <p>Roger Deakins'in sinematografisi, neon ışıklar ve karanlık atmosferle cyberpunk estetiğini mükemmel şekilde yansıtıyor. Her kare bir sanat eseri.</p>
+                        
+                        <h3>Hikaye ve Temalar</h3>
+                        <p>Film, insan doğası, yapay zeka ve kimlik sorularını derinlemesine işliyor. Ryan Gosling'in K karakteri, izleyiciyi duygusal bir yolculuğa çıkarıyor.</p>
+                        
+                        <h3>Sonuç</h3>
+                        <p>Blade Runner 2049, hem orijinal filmin hayranları hem de yeni izleyiciler için mükemmel bir cyberpunk deneyimi sunuyor.</p>
+                        
+                        <p><strong>Puan:</strong> 10/10</p>
+                    `,
+                    image: null
+                },
+                'Altered Carbon: Bilinç Transferi ve Gelecek': {
+                    content: `
+                        <h2>Altered Carbon: Bilinç Transferi ve Gelecek</h2>
+                        <p><strong>Yayın Tarihi:</strong> 10 Aralık 2024</p>
+                        <p><strong>Kategori:</strong> Dizi İncelemesi</p>
+                        
+                        <h3>Giriş</h3>
+                        <p>Netflix'in cyberpunk dizisi Altered Carbon, ölümsüzlük ve kimlik kavramlarını sorguluyor. Richard K. Morgan'ın romanından uyarlanan dizi, gelecekte bilinç transferi teknolojisinin yaygınlaştığı bir dünyayı anlatıyor.</p>
+                        
+                        <h3>Hikaye ve Dünya</h3>
+                        <p>Dizi, insanların bilincini dijital olarak saklayıp farklı bedenlere aktarabildiği bir gelecekte geçiyor. Bu teknoloji, zenginlerin ölümsüz olmasını sağlarken, yoksullar için erişilemez kalıyor.</p>
+                        
+                        <h3>Karakterler</h3>
+                        <p>Takeshi Kovacs karakteri, farklı bedenler arasında geçiş yaparak kimlik ve benlik sorularını gündeme getiriyor. Joel Kinnaman ve Anthony Mackie'nin performansları dikkat çekici.</p>
+                        
+                        <h3>Sonuç</h3>
+                        <p>Altered Carbon, cyberpunk türünün temel temalarını modern bir yaklaşımla ele alıyor. Görsel efektleri ve hikayesi ile izlemeye değer bir yapım.</p>
+                        
+                        <p><strong>Puan:</strong> 8/10</p>
+                    `,
+                    image: null
+                },
+                'Neuromancer: Cyberpunk Türünün Doğuşu': {
+                    content: `
+                        <h2>Neuromancer: Cyberpunk Türünün Doğuşu</h2>
+                        <p><strong>Yayın Tarihi:</strong> 8 Aralık 2024</p>
+                        <p><strong>Kategori:</strong> Kitap İncelemesi</p>
+                        
+                        <h3>Giriş</h3>
+                        <p>William Gibson'ın bu klasik eseri, cyberpunk türünün temellerini atarak geleceğin teknoloji vizyonunu şekillendirdi. 1984'te yayınlanan roman, bugün bile güncelliğini koruyor.</p>
+                        
+                        <h3>Hikaye ve Dünya</h3>
+                        <p>Case, eski bir hacker olarak siber uzayda yeni bir görev alır. Gibson'ın yarattığı dijital dünya, internetin yaygınlaşmasından yıllar önce sanal gerçekliği hayal etmişti.</p>
+                        
+                        <h3>Etki ve Miras</h3>
+                        <p>Neuromancer, Matrix filminden Cyberpunk 2077'ye kadar sayısız esere ilham verdi. "Cyberspace" terimini literatüre kazandıran bu eser, bilim kurgu tarihinin dönüm noktalarından biri.</p>
+                        
+                        <h3>Sonuç</h3>
+                        <p>Cyberpunk türünü anlamak isteyenler için mutlaka okunması gereken bir klasik. Gibson'ın vizyoner yaklaşımı, teknolojinin geleceği hakkında hala geçerli öngörüler sunuyor.</p>
+                        
+                        <p><strong>Puan:</strong> 10/10</p>
+                    `,
+                    image: null
+                },
+                'Deus Ex: Mankind Divided - Augmentation Etiği': {
+                    content: `
+                        <h2>Deus Ex: Mankind Divided - Augmentation Etiği</h2>
+                        <p><strong>Yayın Tarihi:</strong> 5 Aralık 2024</p>
+                        <p><strong>Kategori:</strong> Oyun İncelemesi</p>
+                        
+                        <h3>Giriş</h3>
+                        <p>İnsan vücudunun teknolojik gelişimi ve bunun toplumsal sonuçları üzerine derin bir inceleme. Deus Ex: Mankind Divided, cyberpunk türünün felsefi sorularını oynanış ile harmanlıyor.</p>
+                        
+                        <h3>Hikaye ve Temalar</h3>
+                        <p>Adam Jensen'ın hikayesi, augmented insanlar ile doğal insanlar arasındaki gerilimi ele alıyor. Oyun, ayrımcılık, teknoloji bağımlılığı ve insan kimliği konularını işliyor.</p>
+                        
+                        <h3>Oynanış</h3>
+                        <p>Stealth, aksiyon ve RPG öğelerini birleştiren oyun, oyunculara farklı yaklaşımlar sunuyor. Augmentation sistemi, karakteri kişiselleştirme imkanı veriyor.</p>
+                        
+                        <h3>Sonuç</h3>
+                        <p>Mankind Divided, cyberpunk oyunları arasında önemli bir yere sahip. Hem eğlenceli hem de düşündürücü bir deneyim sunuyor.</p>
+                        
+                        <p><strong>Puan:</strong> 8.5/10</p>
+                    `,
+                    image: null
+                },
+                'Ghost in the Shell: Ruh ve Makine': {
+                    content: `
+                        <h2>Ghost in the Shell: Ruh ve Makine</h2>
+                        <p><strong>Yayın Tarihi:</strong> 3 Aralık 2024</p>
+                        <p><strong>Kategori:</strong> Film İncelemesi</p>
+                        
+                        <h3>Giriş</h3>
+                        <p>Anime klasiği Ghost in the Shell, bilinç ve kimlik sorularını cyberpunk estetiği ile harmanlıyor. Mamoru Oshii'nin yönettiği bu başyapıt, bilim kurgu sinemasının dönüm noktalarından biri.</p>
+                        
+                        <h3>Görsel Tasarım</h3>
+                        <p>1995 yapımı olan film, döneminin çok ötesinde görsel efektler kullanıyor. Cyberpunk şehir tasarımı ve karakter animasyonları bugün bile etkileyici.</p>
+                        
+                        <h3>Felsefi Derinlik</h3>
+                        <p>Film, ruh ve beden ayrımını sorgularken, yapay zekanın bilinç kazanması konusunu ele alıyor. Major Kusanagi'nin kimlik arayışı, izleyiciyi derin düşüncelere sevk ediyor.</p>
+                        
+                        <h3>Sonuç</h3>
+                        <p>Ghost in the Shell, cyberpunk türünün en önemli eserlerinden biri. Hem görsel hem de felsefi açıdan zengin bir deneyim sunuyor.</p>
+                        
+                        <p><strong>Puan:</strong> 9.5/10</p>
+                    `,
+                    image: null
+                }
+            };
+            
+            return posts[title] || {
+                content: `
+                    <h2>${title}</h2>
+                    <p>Bu yazının detaylı içeriği yakında eklenecek...</p>
+                    <p>Cyberpunk dünyasından en güncel haberler ve incelemeleri takip etmeyi unutmayın!</p>
+                `,
+                image: null
+            };
+        }
+        
+        function showPostModal(title, postData) {
+            // Modal oluştur
+            const modal = document.createElement('div');
+            modal.className = 'post-modal';
+            modal.innerHTML = `
+                <div class="post-modal-content">
+                    <div class="post-modal-header">
+                        <button class="post-modal-close" onclick="closePostModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="post-modal-body">
+                        ${postData.content}
+                    </div>
+                </div>
+                <div class="post-modal-overlay" onclick="closePostModal()"></div>
+            `;
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePostModal() {
+            const modal = document.querySelector('.post-modal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Add escape key support for modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePostModal();
+            }
+        });
