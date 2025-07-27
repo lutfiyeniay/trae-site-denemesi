@@ -4,14 +4,13 @@ session_start();
 require_once 'config/database.php';
 require_once 'includes/functions.php';
 
-// Get post ID and title from URL parameters
-$post_slug = isset($_GET['id']) ? $_GET['id'] : '';
+// Get post ID and optional title from URL parameters
+$post_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $post_title = isset($_GET['title']) ? $_GET['title'] : '';
 
-// If we have a slug but no title, try to find by slug
-// If we have a title, use it to find the post
-if (empty($post_slug) && empty($post_title)) {
-    header('Location: blog.html');
+// Require an ID or title
+if ($post_id <= 0 && empty($post_title)) {
+    header('Location: blog.php');
     exit();
 }
 
@@ -106,23 +105,42 @@ $demo_posts = [
     ]
 ];
 
-// Find post by slug or create default content
+// Find post by ID or fall back to demo/default content
 $post = null;
-if (isset($demo_posts[$post_slug])) {
-    $post = $demo_posts[$post_slug];
-} else {
+
+if ($post_id > 0) {
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM blog_posts WHERE id = ?');
+        $stmt->execute([$post_id]);
+        $post = $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        $post = null;
+    }
+}
+
+if (!$post) {
+    // Search demo posts by ID
+    foreach ($demo_posts as $demo) {
+        if ($demo['id'] == $post_id) {
+            $post = $demo;
+            break;
+        }
+    }
+}
+
+if (!$post) {
     // Create a default post with the provided title
     $post = [
-        'id' => 999,
+        'id' => $post_id ?: 999,
         'title' => $post_title ?: 'Blog Yazısı',
         'content' => '
             <h2>' . htmlspecialchars($post_title ?: 'Blog Yazısı') . '</h2>
             <p><strong>Yayın Tarihi:</strong> ' . date('d M Y') . '</p>
             <p><strong>Kategori:</strong> Genel</p>
-            
+
             <h3>İçerik Yakında Eklenecek</h3>
             <p>Bu yazının detaylı içeriği yakında eklenecek. Cyberpunk dünyasından en güncel haberler ve incelemeleri takip etmeyi unutmayın!</p>
-            
+
             <p>Daha fazla içerik için blog sayfamızı ziyaret edin.</p>
         ',
         'excerpt' => 'Bu yazının detaylı içeriği yakında eklenecek...',
@@ -139,3 +157,109 @@ $post['views']++;
 
 // Get related posts (for demo, we'll show other demo posts)
 $related_posts = array_slice(array_values($demo_posts), 0, 3);
+
+?>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo htmlspecialchars($post['title']); ?> - Su Ascend</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="cyber-grid"></div>
+
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1 class="logo"><a href="index.html">SU<span class="accent">ASCEND</span></a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html#streams" class="nav-link">Yayınlar</a></li>
+                <li><a href="blog.php" class="nav-link">Blog</a></li>
+                <li><a href="index.html" class="nav-link">Ana Sayfa</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="post-detail">
+        <div class="container">
+            <?php if ($post): ?>
+                <h1 class="post-title"><?php echo htmlspecialchars($post['title']); ?></h1>
+                <div class="post-meta">
+                    <span class="post-category"><?php echo htmlspecialchars($post['category']); ?></span>
+                    <span class="post-date"><?php echo formatDate($post['created_at']); ?></span>
+                    <span class="post-views"><?php echo number_format($post['views']); ?> görüntüleme</span>
+                </div>
+                <div class="post-content">
+                    <?php echo $post['content']; ?>
+                </div>
+            <?php else: ?>
+                <div class="no-post">
+                    <h2>Yazı Bulunamadı</h2>
+                    <p>Aradığınız blog yazısı bulunamadı.</p>
+                    <a href="blog.php" class="cyber-btn primary">Blog'a Dön</a>
+                </div>
+            <?php endif; ?>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SU<span class="accent">ASCEND</span></h3>
+                    <p>DENEME</p>
+                    <div class="social-links">
+                        <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank"><i class="fab fa-twitch"></i></a>
+                        <a href="https://kick.com/YOUR_KICK_USERNAME" target="_blank"><i class="fas fa-video"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Bağlantılar</h4>
+                    <ul>
+                        <li><a href="index.html#streams">Canlı Yayınlar</a></li>
+                        <li><a href="blog.php">Blog</a></li>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="admin/login.php">Admin Panel</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Kategoriler</h4>
+                    <ul>
+                        <li><a href="blog.php?category=Oyun">Oyun İncelemeleri</a></li>
+                        <li><a href="blog.php?category=Film">Film İncelemeleri</a></li>
+                        <li><a href="blog.php?category=Dizi">Dizi İncelemeleri</a></li>
+                        <li><a href="blog.php?category=Kitap">Kitap İncelemeleri</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>İletişim</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> contact@suascend.local</p>
+                        <p><i class="fas fa-globe"></i> www.suascend.local</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; DENEME.</p>
+                <p>DENEME.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
